@@ -14,8 +14,8 @@ function App() {
   const [nodeName, setNodeName] = useState("")
   const [nodes, setNodes] = useState([])
 
-  const contractAddress = '0x174e8E7B0789cf637945AdF940560D6B3902Ba7D'
-  const nodeManagementAddress = '0xafD88EF59fF75C03A2B025cc87eBCD0e2f8cb30b'
+  const contractAddress = '0x1aEa17a08EdE10D158baac969f809E6747cb2B22'
+  const nodeManagementAddress = '0xd311d77c8F4665bdA9e684Cd08f8991f364AbEF5'
   const provider = new ethers.providers.Web3Provider(window.ethereum, "any")
   provider.on("network", (newNetwork, oldNetwork) => {
     // When a Provider makes its initial connection, it emits a "network"
