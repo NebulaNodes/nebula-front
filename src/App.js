@@ -336,8 +336,8 @@ function App() {
               <img src={logo} alt="StarLogo" class="logo" width="250" length="250"/>
             </div>
 
-            <div><a href="https://traderjoexyz.com/trade?outputCurrency=">Buy <span className="tokenSpan1">Nebu</span></a></div>
-            <div><a href="https://dexscreener.com/avalanche/">Chart</a></div>
+            <div><a href="https://traderjoexyz.com/trade?outputCurrency=0x1aEa17a08EdE10D158baac969f809E6747cb2B22">Buy <span className="tokenSpan1">Nebu</span></a></div>
+            <div><a href="https://dexscreener.com/avalanche/0x36c1d7d2eb0cf928ab05dfe8c339f5b5c7c818a4">Chart</a></div>
 
             <div id='socials'>
                 <div>
