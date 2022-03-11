@@ -1737,7 +1737,7 @@ function App() {
     
     function getUnderMainButtonText(){
       if(status === 'connected'){
-        return <div>Daily Rewards : 1.44 <span className="tokenSpan">Nebu </span>/ Day / NebulaNode</div>
+        return <div>Daily Rewards : 0.76 <span className="tokenSpan">Nebu </span>/ Day / NebulaNode</div>
       }else{
         return <div>Connect your Metamask to stake <span className="tokenSpan">Nebu</span></div>
       }
