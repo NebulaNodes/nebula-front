@@ -73,9 +73,17 @@ header,
     justify-content: space-evenly;
 }
 
-/* .name {
-    margin-left: 50px;
-} */
+ .name {
+    margin-left: 80px;
+}
+
+.rewards {
+    margin-left: 40px;
+}
+
+.value {
+    margin-left: 30px;
+}
 
 .nameRow {
     margin-right: 30px;
@@ -94,7 +102,7 @@ header,
 
 .buttonStyle {
     background-color: #ff45ff;
-    width: 220px;
+    width: 250px;
     color: #333333;
     border-radius: 5px;
     border: none;
@@ -105,6 +113,25 @@ header,
         box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
         border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
     font-family: 'Bodo Amat';
+}
+
+.compound {
+    background-color: #ff45ff;
+    width: 100px;
+    color: #333333;
+    border-radius: 5px;
+    border: none;
+    padding: 3px 10px;
+    font-size: 15px;
+    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
+        border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    font-family: 'Bodo Amat';
+}
+
+.compound:Hover {
+    background-color: #ff00ffa2;
+    cursor: pointer;   
 }
 
 .buttonStyle:hover {

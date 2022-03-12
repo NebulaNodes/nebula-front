@@ -13,6 +13,7 @@ function App() {
   const [availableRewards, setAvailableRewards] = useState(<span className="tokenSpan"> 0 Nebu</span>)
   const [nodeName, setNodeName] = useState("")
   const [nodes, setNodes] = useState([])
+  const [total, setTotalDaily] = useState(<span> - Nebu/Day </span>)
   const [currentprice, setCurrentPrice] = useState(<span> - $</span>) 
   const [currentBalance, setCurrentBalance] = useState(<span> - Nebu</span>) 
   const [currentMarketCap, setMarketCap] = useState(<span> - $</span>) 
@@ -1647,6 +1648,7 @@ function App() {
   const avaxusdcABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0In","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1In","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount0Out","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1Out","type":"uint256"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"Swap","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint112","name":"reserve0","type":"uint112"},{"indexed":false,"internalType":"uint112","name":"reserve1","type":"uint112"}],"name":"Sync","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[],"name":"DOMAIN_SEPARATOR","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MINIMUM_LIQUIDITY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"PERMIT_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"burn","outputs":[{"internalType":"uint256","name":"amount0","type":"uint256"},{"internalType":"uint256","name":"amount1","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"factory","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getReserves","outputs":[{"internalType":"uint112","name":"_reserve0","type":"uint112"},{"internalType":"uint112","name":"_reserve1","type":"uint112"},{"internalType":"uint32","name":"_blockTimestampLast","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_token0","type":"address"},{"internalType":"address","name":"_token1","type":"address"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"kLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"mint","outputs":[{"internalType":"uint256","name":"liquidity","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"permit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"price0CumulativeLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"price1CumulativeLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"skim","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount0Out","type":"uint256"},{"internalType":"uint256","name":"amount1Out","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"swap","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"sync","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}]
   const avaxusdcContract = new ethers.Contract(avaxusdcAddress, avaxusdcABI, signer);
   
+
   const [allNodes, setAllNodes] = useState(0)
   const [myNodes, setMyNodes] = useState(0)
 
@@ -1666,9 +1668,21 @@ function App() {
       updateInfo()
     }
 
+
     function getMyNodes(){
       if(status === 'connected'){
         return (<p>{myNodes}</p>
+        )
+      }else{
+        return (  
+            <span className="placeholder"></span>
+        )
+      }
+    }
+
+    function getTotalDaily(){
+      if(status === 'connected'){
+        return (<p>{total}</p>
         )
       }else{
         return (  
@@ -1865,20 +1879,29 @@ function App() {
 
         let tx5 = await nodeManagementContract.getNodesCreationTime(account)
         let creationTimeArray = tx5.toString().split("#")
+
+        let tx10 = await nodeManagementContract.getAllNodes(account)
+        console.log(tx10[1].amount.toString())
   
         let nodes = []
+        let total = new Number();
   
         for (let i = 0; i < creationTimeArray.length; i++) {
           let tx6 = await nodeManagementContract.getNodeReward(account, creationTimeArray[i])
+          let dailyrewards = (tx10[i].amount).mul(76).div(1000)
+          console.log(formatToken(dailyrewards))
+          total = total + Number((formatToken(dailyrewards)))
   
           let newNode = {
             name: namesArray[i],
             creationTime: creationTimeArray[i],
-            rewards: formatToken(tx6).toString()
+            rewards: formatToken(tx6).toString(),
+            value: formatToken(tx10[i].amount).toString(),
+            daily: formatToken(dailyrewards).toString()          
           }
           nodes.push(newNode)
         }
-
+        setTotalDaily(<span className="tokenSpan">{total} Nebu/Day</span>)
         console.log(nodes)
         setNodes(nodes)
       }catch(e){
@@ -1988,20 +2011,32 @@ function App() {
 
         let tx5 = await nodeManagementContract.getNodesCreationTime(account)
         let creationTimeArray = tx5.toString().split("#")
+
+        let tx10 = await nodeManagementContract.getAllNodes(account)
+        console.log(tx10[1].amount.toString())
   
         let nodes = []
+        let total = new Number();
+        
   
         for (let i = 0; i < creationTimeArray.length; i++) {
           let tx6 = await nodeManagementContract.getNodeReward(account, creationTimeArray[i])
+          let dailyrewards = (tx10[i].amount).mul(76).div(1000)
+          console.log(formatToken(dailyrewards))
+          total = total + Number((formatToken(dailyrewards)))
+          
   
           let newNode = {
             name: namesArray[i],
             creationTime: creationTimeArray[i],
-            rewards: formatToken(tx6).toString()
+            rewards: formatToken(tx6).toString(),
+            value: formatToken(tx10[i].amount).toString(),
+            daily: formatToken(dailyrewards).toString(),  
           }
           nodes.push(newNode)
       }
 
+      setTotalDaily(<span className="tokenSpan">{total} Nebu/Day</span>)
       console.log(nodes)
       setNodes(nodes)
       }catch(e){
@@ -2091,6 +2126,10 @@ function App() {
                         <div>My NebulaNodes</div>
                         {getMyNodes()}
                     </div>
+                    <div id='myNodes'>
+                        <div>My daily Rewards</div>
+                        {getTotalDaily()}
+                    </div>
                     <div id='allNodes'>
                         <div className="allNodes">All NebulaNodes</div>
                         {getAllNodes()}
@@ -2101,9 +2140,9 @@ function App() {
                     </div>
                 </div>
                 <div className='toCenter'>
-                    <div><Button onClick={handleMainButtonClick} text={status === 'connected' ? 'Get Rewards' : 'Connect to Metamask'} width='200px'/></div>
+                    <div><Button onClick={handleMainButtonClick} text={status === 'connected' ? 'Get Rewards' : 'Connect to Metamask'} width='250px'/></div>
                     {getUnderMainButtonText()}
-                </div>                
+                </div>                              
             </div>
 
             <div className="zone" id='create'>
@@ -2123,15 +2162,19 @@ function App() {
                 <div className="rowForColumns">
                     <div><b>Created Time</b></div>
                     <div className="name"><b>Name</b></div>
-                    <div><b>Rewards</b></div>
+                    <div className="rewards"><b>Rewards</b></div>
+                    <div className="value"><b>Value</b></div>
+                    <div className="value"><b>Daily Rewards</b></div>
                 </div>
                 {nodes.map( (node) => (
                 <div key={node.name} className="rowForColumns">
                     <div>{creationTimeToDate(node.creationTime)}</div>
                     <div className="nameRow">{node.name}</div>
                     <div>{node.rewards} <span className="tokenSpan">Nebu </span></div>
+                    <div>{node.value}</div>
+                    <div>{node.daily}<span className="tokenSpan"> Nebu </span> per day</div>                 
                 </div>)
-                )}
+                )}  
             </div>
             {/* <div className="zone" id='staked'>
                 <div className="titleZone">Staked <span className="tokenSpan">Nebu</span> Nodes</div>
