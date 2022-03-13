@@ -74,7 +74,7 @@ header,
 }
 
  .name {
-    margin-left: 80px;
+    margin-left: 20px;
 }
 
 .rewards {
@@ -83,6 +83,9 @@ header,
 
 .value {
     margin-left: 30px;
+}
+.block {
+    margin-left: 90px;
 }
 
 .nameRow {
@@ -99,6 +102,11 @@ header,
     flex-direction: column;
     align-items: center;
 }
+.toCenter {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
 
 .buttonStyle {
     background-color: #ff45ff;
@@ -108,6 +116,7 @@ header,
     border: none;
     padding: 10px 16px;
     margin: 30px 0px;
+    margin-left: 10px;
     font-size: 18px;
     transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
         box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
@@ -115,23 +124,11 @@ header,
     font-family: 'Bodo Amat';
 }
 
-.compound {
-    background-color: #ff45ff;
-    width: 100px;
-    color: #333333;
+.select  {
+    margin: 15px;
+    width: 250px;
     border-radius: 5px;
-    border: none;
-    padding: 3px 10px;
-    font-size: 15px;
-    transition: background-color 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-        box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms,
-        border 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
-    font-family: 'Bodo Amat';
-}
-
-.compound:Hover {
-    background-color: #ff00ffa2;
-    cursor: pointer;   
+    font-size: 22px;
 }
 
 .buttonStyle:hover {
@@ -150,6 +147,7 @@ header,
 input {
     margin-top: 15px;
     margin-bottom: 10px;
+    margin-left: 10px;
     padding: 10px 14px;
     font: inherit;
 }

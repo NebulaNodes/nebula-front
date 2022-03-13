@@ -12,6 +12,8 @@ function App() {
   
   const [availableRewards, setAvailableRewards] = useState(<span className="tokenSpan"> 0 Nebu</span>)
   const [nodeName, setNodeName] = useState("")
+  const [blocktime, setBlocktime] = useState("")
+  const [nbtoken, setnbtokens] = useState("")
   const [nodes, setNodes] = useState([])
   const [total, setTotalDaily] = useState(<span> - Nebu/Day </span>)
   const [currentprice, setCurrentPrice] = useState(<span> - $</span>) 
@@ -1757,8 +1759,28 @@ function App() {
       }
     }
 
+    function handleTokensNbChange(e) {
+      setnbtokens(e.target.value);
+      console.log(nbtoken)
+    }
+
     async function createNode(){
       const tx = await nodeContract.createNodeWithTokens(nodeName, "10000000000000000000")
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    async function cashoutNode(){
+      const tx = await nodeContract.cashoutReward(blocktime)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    
+    async function compoundNode(){
+      const tx = await nodeContract.compoundNodeRewards(blocktime)
       const receipt = await tx.wait()
       console.log(receipt)
       updateInfo()
@@ -1818,6 +1840,54 @@ function App() {
       if(status === 'connected'){
         if(chainId === '0xa86a'){
             (nodeName.length > 3 && nodeName.length < 32) ? await createNode() : alert('Node name must be between 3 and 31 characters long')
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleCashoutNodeButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await cashoutNode()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleCompoundNodeButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await compoundNode()
         }else{
             ethereum.request({
                 "id": 1,
@@ -1901,7 +1971,7 @@ function App() {
           }
           nodes.push(newNode)
         }
-        setTotalDaily(<span className="tokenSpan">{total} Nebu/Day</span>)
+        setTotalDaily(<span className="tokenSpan">{total.toFixed(2)} Nebu/Day</span>)
         console.log(nodes)
         setNodes(nodes)
       }catch(e){
@@ -2036,7 +2106,7 @@ function App() {
           nodes.push(newNode)
       }
 
-      setTotalDaily(<span className="tokenSpan">{total} Nebu/Day</span>)
+      setTotalDaily(<span className="tokenSpan">{total.toFixed(2)} Nebu/Day</span>)
       console.log(nodes)
       setNodes(nodes)
       }catch(e){
@@ -2047,7 +2117,7 @@ function App() {
 
     function formatToken(decimals){
       const balance = ethers.BigNumber.from(decimals);
-      const remainder = balance.mod(1e14);
+      const remainder = balance.mod(1e15);
       return ethers.utils.formatEther(balance.sub(remainder));
     }
     
@@ -2147,13 +2217,32 @@ function App() {
 
             <div className="zone" id='create'>
                 <div className="toCenter">
-                    <div><TextInput placeholder='NebulaNode Name' onChange={(e) => setNodeName(e.target.value) } /></div>                    
+                    <div><TextInput placeholder='NebulaNode Name' onChange={(e) => setNodeName(e.target.value) } /></div>
+                  {/*  <label for="token-select">Select a number of NeBu :</label>
+                    <select name="token" id="token-select" className="select" onChange={handleTokensNbChange}>
+                      <option value="10000000000000000000">10</option>
+                      <option value="20000000000000000000">20</option>
+                      <option value="30000000000000000000">30</option>
+                      <option value="40000000000000000000">40</option>
+                      <option value="50000000000000000000">50</option>
+          </select> */}
                     <div>
                         <Button text={status === 'connected' ? 'Create a NebulaNode' : 'Connect to Metamask'} onClick={handleCreateNodeButtonClick} width='200px'/>
                     </div>                    
                     <div >1 NebulaNode = 10 <span className="tokenSpan">Nebu</span></div>
                 </div>
-            </div>              
+            </div>
+
+              <div className="zone" id='create'>
+                <div className="toCenter">
+                    <div><TextInput placeholder='Blocktime' onChange={(e) => setBlocktime(e.target.value) } /></div>
+                    <div>
+                        <Button text={status === 'connected' ? 'Cashout Node' : 'Connect to Metamask'} onClick={handleCashoutNodeButtonClick} width='200px'/>
+                        <Button text={status === 'connected' ? 'Compound Node' : 'Connect to Metamask'} onClick={handleCompoundNodeButtonClick} width='200px'/>
+                    </div>                              
+                    <div >This button allows you to Cashout or Compound a node, to do so put the blocktime of the node you want to cashout or compound (see Below in your owned node) and click on <span className="tokenSpan">Cashout Node</span> or <span className="tokenSpan">Compound Node</span></div>
+                </div>
+            </div>               
             <div className="zone" id='owned'>
                 <div className="titleZone" id='zone3row1'>
                     <p>Owned <span className="tokenSpan">Nebula</span>Nodes</p>
@@ -2161,6 +2250,7 @@ function App() {
                 </div>
                 <div className="rowForColumns">
                     <div><b>Created Time</b></div>
+                    <div className="block"><b>BlockTime</b></div>
                     <div className="name"><b>Name</b></div>
                     <div className="rewards"><b>Rewards</b></div>
                     <div className="value"><b>Value</b></div>
@@ -2169,6 +2259,7 @@ function App() {
                 {nodes.map( (node) => (
                 <div key={node.name} className="rowForColumns">
                     <div>{creationTimeToDate(node.creationTime)}</div>
+                    <div>{node.creationTime}</div>
                     <div className="nameRow">{node.name}</div>
                     <div>{node.rewards} <span className="tokenSpan">Nebu </span></div>
                     <div>{node.value}</div>
