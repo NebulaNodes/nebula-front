@@ -74,7 +74,7 @@ header,
 }
 
  .name {
-    margin-left: 20px;
+    margin-left: 70px;
 }
 
 .rewards {
@@ -83,9 +83,6 @@ header,
 
 .value {
     margin-left: 30px;
-}
-.block {
-    margin-left: 90px;
 }
 
 .nameRow {

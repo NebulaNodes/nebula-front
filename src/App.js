@@ -1973,6 +1973,7 @@ function App() {
         }
         setTotalDaily(<span className="tokenSpan">{total.toFixed(2)} Nebu/Day</span>)
         console.log(nodes)
+        console.log(nodes[0].creationTime)
         setNodes(nodes)
       }catch(e){
         console.log("No nodes")
@@ -2108,6 +2109,7 @@ function App() {
 
       setTotalDaily(<span className="tokenSpan">{total.toFixed(2)} Nebu/Day</span>)
       console.log(nodes)
+      console.log(nodes[0].creationTime)
       setNodes(nodes)
       }catch(e){
         console.log("No nodes")
@@ -2212,6 +2214,7 @@ function App() {
                 <div className='toCenter'>
                     <div><Button onClick={handleMainButtonClick} text={status === 'connected' ? 'Get Rewards' : 'Connect to Metamask'} width='250px'/></div>
                     {getUnderMainButtonText()}
+                    <div style={{color: "#FF6B6B", fontSize: "20px", border:'6px solid #E80000'}}>MIGRATION COMING MARCH 21TH 4PM UTC, CLAIM YOUR REWARDS BEFORE THIS DATE OR YOU WILL LOSE THEM</div>
                 </div>                              
             </div>
 
