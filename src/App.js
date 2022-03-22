@@ -22,7 +22,7 @@ function App() {
   const [currentMarketCap, setMarketCap] = useState(<span> - $</span>) 
   const contractAddress = '0x5AA2Ff4Ab706307d8B3D90A462c1ddC055655734'
   const nodeManagementAddress = '0x7Fb35013090590B8FFb628a89851FaC6e6f0EBC9'
-  const pairAddress = '0x36c1D7D2eb0CF928aB05DFE8c339f5b5c7c818a4'
+  const pairAddress = '0xd177B5D5c73Cb385732b658824F2c6614eB6eD4f'
   const avaxusdcAddress = '0xA389f9430876455C36478DeEa9769B7Ca4E3DDB1'
   const provider = new ethers.providers.Web3Provider(window.ethereum, "any")
   provider.on("network", (newNetwork, oldNetwork) => {
@@ -2687,8 +2687,8 @@ function App() {
               <img src={logo} alt="StarLogo" class="logo" width="250" length="250"/>
             </div>
 
-            <div><a  href="https://traderjoexyz.com/trade?outputCurrency=0x1aEa17a08EdE10D158baac969f809E6747cb2B22" target='_blank' rel="noreferrer noopener">Buy <span className="tokenSpan1">Nebu</span></a></div>
-            <div><a  href="https://dexscreener.com/avalanche/0x36c1d7d2eb0cf928ab05dfe8c339f5b5c7c818a4" target='_blank' rel="noreferrer noopener">Chart</a></div>
+            <div><a  href="https://traderjoexyz.com/trade?outputCurrency=0x5AA2Ff4Ab706307d8B3D90A462c1ddC055655734" target='_blank' rel="noreferrer noopener">Buy <span className="tokenSpan1">Nebu</span></a></div>
+            <div><a  href="https://dexscreener.com/avalanche/0xd177B5D5c73Cb385732b658824F2c6614eB6eD4f" target='_blank' rel="noreferrer noopener">Chart</a></div>
 
             <div id='socials'>
                 <div>
