@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react'
 import { useMetaMask } from "metamask-react";
+import Web3 from 'web3';
 import Button from './components/Button'
 import TextInput from './components/TextInput'
-import { BigNumber, ethers } from "ethers";
+import { ethers } from "ethers";
 import logo from './img/logo.png';
 
 function App() {
@@ -19,8 +20,8 @@ function App() {
   const [currentprice, setCurrentPrice] = useState(<span> - $</span>) 
   const [currentBalance, setCurrentBalance] = useState(<span> - Nebu</span>) 
   const [currentMarketCap, setMarketCap] = useState(<span> - $</span>) 
-  const contractAddress = '0x1aEa17a08EdE10D158baac969f809E6747cb2B22'
-  const nodeManagementAddress = '0xd311d77c8F4665bdA9e684Cd08f8991f364AbEF5'
+  const contractAddress = '0x5AA2Ff4Ab706307d8B3D90A462c1ddC055655734'
+  const nodeManagementAddress = '0x7Fb35013090590B8FFb628a89851FaC6e6f0EBC9'
   const pairAddress = '0x36c1D7D2eb0CF928aB05DFE8c339f5b5c7c818a4'
   const avaxusdcAddress = '0xA389f9430876455C36478DeEa9769B7Ca4E3DDB1'
   const provider = new ethers.providers.Web3Provider(window.ethereum, "any")
@@ -33,7 +34,625 @@ function App() {
     }
 });
   const signer = provider.getSigner()
-  const nodeManagementAbi = [{"inputs":[{"internalType":"uint8","name":"_rewardPerNode","type":"uint8"},{"internalType":"uint256","name":"_minPrice","type":"uint256"}],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"uint256","name":"amount","type":"uint256"},{"indexed":true,"internalType":"address","name":"account","type":"address"},{"indexed":true,"internalType":"uint256","name":"blockTime","type":"uint256"}],"name":"NodeCreated","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"previousOwner","type":"address"},{"indexed":true,"internalType":"address","name":"newOwner","type":"address"}],"name":"OwnershipTransferred","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Paused","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"address","name":"account","type":"address"}],"name":"Unpaused","type":"event"},{"inputs":[{"internalType":"uint256","name":"index","type":"uint256"}],"name":"burn","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"cashoutAllNodesRewards","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"_creationTime","type":"uint256"}],"name":"cashoutNodeReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"_creationTime","type":"uint256"},{"internalType":"uint256","name":"rewardAmount_","type":"uint256"}],"name":"compoundNodeReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"string","name":"nodeName","type":"string"},{"internalType":"uint256","name":"amount_","type":"uint256"}],"name":"createNode","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getAllNodes","outputs":[{"components":[{"internalType":"string","name":"name","type":"string"},{"internalType":"uint256","name":"creationTime","type":"uint256"},{"internalType":"uint256","name":"lastClaimTime","type":"uint256"},{"internalType":"uint256","name":"amount","type":"uint256"}],"internalType":"struct NodeManager.NodeEntity[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getAllNodesRewards","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getIndexOfKey","outputs":[{"internalType":"int256","name":"","type":"int256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getMinPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getNodeNumberOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"},{"internalType":"uint256","name":"_creationTime","type":"uint256"}],"name":"getNodeReward","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getNodesCreationTime","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getNodesLastClaimTime","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"getNodesNames","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"account","type":"address"}],"name":"isNodeOwner","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"minPrice","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"owner","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"paused","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"renounceOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"rewardPerNode","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalClaimed","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalNodesCreated","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalStaked","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"newOwner","type":"address"}],"name":"transferOwnership","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint8[]","name":"newVal","type":"uint8[]"}],"name":"updateBoostMultipliers","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint8[]","name":"newVal","type":"uint8[]"}],"name":"updateBoostRequiredDays","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"newVal","type":"uint256"}],"name":"updateMinPrice","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint8","name":"newVal","type":"uint8"}],"name":"updateReward","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"newToken","type":"address"}],"name":"updateToken","outputs":[],"stateMutability":"nonpayable","type":"function"}]
+  const nodeManagementAbi = [
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "_rewardPerNode",
+          "type": "uint8"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_minPrice",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "blockTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "NodeCreated",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Paused",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "Unpaused",
+      "type": "event"
+    },
+    {
+      "inputs": [],
+      "name": "minPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "paused",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "renounceOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "rewardPerNode",
+      "outputs": [
+        {
+          "internalType": "uint8",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "token",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "totalClaimed",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "totalNodesCreated",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [],
+      "name": "totalStaked",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "nodeName",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "createNodeOld",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "string",
+          "name": "nodeName",
+          "type": "string"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "createNode",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_creationTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "getNodeReward",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getAllNodesRewards",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_creationTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "cashoutNodeReward",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_creationTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardAmount_",
+          "type": "uint256"
+        }
+      ],
+      "name": "compoundNodeReward",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "cashoutAllNodesRewards",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getNodesNames",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getNodesCreationTime",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getNodesLastClaimTime",
+      "outputs": [
+        {
+          "internalType": "string",
+          "name": "",
+          "type": "string"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newToken",
+          "type": "address"
+        }
+      ],
+      "name": "updateToken",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8",
+          "name": "newVal",
+          "type": "uint8"
+        }
+      ],
+      "name": "updateReward",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "newVal",
+          "type": "uint256"
+        }
+      ],
+      "name": "updateMinPrice",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8[]",
+          "name": "newVal",
+          "type": "uint8[]"
+        }
+      ],
+      "name": "updateBoostMultipliers",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint8[]",
+          "name": "newVal",
+          "type": "uint8[]"
+        }
+      ],
+      "name": "updateBoostRequiredDays",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "getMinPrice",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getNodeNumberOf",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "isNodeOwner",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getAllNodes",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "creationTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "lastClaimTime",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "amount",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct NodeManager.NodeEntity[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getIndexOfKey",
+      "outputs": [
+        {
+          "internalType": "int256",
+          "name": "",
+          "type": "int256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "burn",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ];
   const nodeManagementContract = new ethers.Contract(nodeManagementAddress, nodeManagementAbi, signer);
   const contractAbi = [
     {
@@ -415,6 +1034,20 @@ function App() {
       "constant": true
     },
     {
+      "inputs": [],
+      "name": "OLD_CONTRACT",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
       "inputs": [
         {
           "internalType": "address",
@@ -442,20 +1075,6 @@ function App() {
     {
       "inputs": [],
       "name": "antiBot",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "antiwhale",
       "outputs": [
         {
           "internalType": "bool",
@@ -629,6 +1248,26 @@ function App() {
       "inputs": [
         {
           "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "hasMigrate",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function",
+      "constant": true
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
           "name": "spender",
           "type": "address"
         },
@@ -719,34 +1358,6 @@ function App() {
           "internalType": "uint256",
           "name": "",
           "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "maxBalanceAmountRate",
-      "outputs": [
-        {
-          "internalType": "uint16",
-          "name": "",
-          "type": "uint16"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "maxTransferAmountRate",
-      "outputs": [
-        {
-          "internalType": "uint16",
-          "name": "",
-          "type": "uint16"
         }
       ],
       "stateMutability": "view",
@@ -1198,6 +1809,13 @@ function App() {
       "payable": true
     },
     {
+      "inputs": [],
+      "name": "migrateOldNode",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
       "inputs": [
         {
           "internalType": "address[]",
@@ -1410,19 +2028,6 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "bool",
-          "name": "value",
-          "type": "bool"
-        }
-      ],
-      "name": "setAntiWhale",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
           "internalType": "uint256",
           "name": "value",
           "type": "uint256"
@@ -1551,94 +2156,15 @@ function App() {
     {
       "inputs": [
         {
-          "internalType": "uint16",
-          "name": "_maxTransferAmountRate",
-          "type": "uint16"
-        }
-      ],
-      "name": "updateMaxTransferAmountRate",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "uint16",
-          "name": "_maxBalanceAmountRate",
-          "type": "uint16"
-        }
-      ],
-      "name": "updatemaxBalanceAmountRate",
-      "outputs": [],
-      "stateMutability": "nonpayable",
-      "type": "function"
-    },
-    {
-      "inputs": [],
-      "name": "maxBalanceAmount",
-      "outputs": [
-        {
           "internalType": "uint256",
-          "name": "",
+          "name": "creationTime",
           "type": "uint256"
         }
       ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [],
-      "name": "maxTransferAmount",
-      "outputs": [
-        {
-          "internalType": "uint256",
-          "name": "",
-          "type": "uint256"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_account",
-          "type": "address"
-        },
-        {
-          "internalType": "bool",
-          "name": "_excluded",
-          "type": "bool"
-        }
-      ],
-      "name": "setExcludedFromAntiWhale",
+      "name": "compoundAllNodes",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
-    },
-    {
-      "inputs": [
-        {
-          "internalType": "address",
-          "name": "_account",
-          "type": "address"
-        }
-      ],
-      "name": "isExcludedFromAntiWhale",
-      "outputs": [
-        {
-          "internalType": "bool",
-          "name": "",
-          "type": "bool"
-        }
-      ],
-      "stateMutability": "view",
-      "type": "function",
-      "constant": true
     }
   ];
 
@@ -1753,7 +2279,7 @@ function App() {
     
     function getUnderMainButtonText(){
       if(status === 'connected'){
-        return <div>Daily Rewards : 0.76 <span className="tokenSpan">Nebu </span>/ Day / NebulaNode</div>
+        return <div>Daily Rewards : 0.2 <span className="tokenSpan">Nebu </span>/ Day / NebulaNode</div>
       }else{
         return <div>Connect your Metamask to stake <span className="tokenSpan">Nebu</span></div>
       }
@@ -1765,14 +2291,15 @@ function App() {
     }
 
     async function createNode(){
-      const tx = await nodeContract.createNodeWithTokens(nodeName, "10000000000000000000")
+      let token = Web3.utils.toWei(nbtoken, 'ether');
+      const tx = await nodeContract.createNodeWithTokens(nodeName, token)
       const receipt = await tx.wait()
       console.log(receipt)
       updateInfo()
     }
 
-    async function cashoutNode(){
-      const tx = await nodeContract.cashoutReward(blocktime)
+    async function migrateNode(){
+      const tx = await nodeContract.migrateOldNode()
       const receipt = await tx.wait()
       console.log(receipt)
       updateInfo()
@@ -1780,7 +2307,7 @@ function App() {
 
     
     async function compoundNode(){
-      const tx = await nodeContract.compoundNodeRewards(blocktime)
+      const tx = await nodeContract.compoundAllNodes(blocktime)
       const receipt = await tx.wait()
       console.log(receipt)
       updateInfo()
@@ -1859,11 +2386,11 @@ function App() {
         await connect()        
       }
     }
-
-    async function handleCashoutNodeButtonClick () {
+    
+    async function handleMigrateNodeButtonClick () {
       if(status === 'connected'){
         if(chainId === '0xa86a'){
-            await cashoutNode()
+            await migrateNode()
         }else{
             ethereum.request({
                 "id": 1,
@@ -1954,11 +2481,11 @@ function App() {
         console.log(tx10[1].amount.toString())
   
         let nodes = []
-        let total = new Number();
+        let total = Number();
   
         for (let i = 0; i < creationTimeArray.length; i++) {
           let tx6 = await nodeManagementContract.getNodeReward(account, creationTimeArray[i])
-          let dailyrewards = (tx10[i].amount).mul(76).div(1000)
+          let dailyrewards = (tx10[i].amount).mul(20).div(1000)
           console.log(formatToken(dailyrewards))
           total = total + Number((formatToken(dailyrewards)))
   
@@ -1971,9 +2498,10 @@ function App() {
           }
           nodes.push(newNode)
         }
+        setBlocktime(nodes[0].creationTime)
         setTotalDaily(<span className="tokenSpan">{total.toFixed(2)} Nebu/Day</span>)
         console.log(nodes)
-        console.log(nodes[0].creationTime)
+        console.log(blocktime)
         setNodes(nodes)
       }catch(e){
         console.log("No nodes")
@@ -2087,12 +2615,12 @@ function App() {
         console.log(tx10[1].amount.toString())
   
         let nodes = []
-        let total = new Number();
+        let total = Number();
         
   
         for (let i = 0; i < creationTimeArray.length; i++) {
           let tx6 = await nodeManagementContract.getNodeReward(account, creationTimeArray[i])
-          let dailyrewards = (tx10[i].amount).mul(76).div(1000)
+          let dailyrewards = (tx10[i].amount).mul(20).div(1000)
           console.log(formatToken(dailyrewards))
           total = total + Number((formatToken(dailyrewards)))
           
@@ -2106,10 +2634,10 @@ function App() {
           }
           nodes.push(newNode)
       }
-
+      setBlocktime(nodes[0].creationTime)
       setTotalDaily(<span className="tokenSpan">{total.toFixed(2)} Nebu/Day</span>)
       console.log(nodes)
-      console.log(nodes[0].creationTime)
+      console.log(blocktime)
       setNodes(nodes)
       }catch(e){
         console.log("No nodes")
@@ -2212,15 +2740,17 @@ function App() {
                     </div>
                 </div>
                 <div className='toCenter'>
-                    <div><Button onClick={handleMainButtonClick} text={status === 'connected' ? 'Get Rewards' : 'Connect to Metamask'} width='250px'/></div>
+                    <div><Button onClick={handleMainButtonClick} text={status === 'connected' ? 'Get Rewards' : 'Connect to Metamask'} width='250px'/>
+                    <Button text={status === 'connected' ? 'Compound All Node' : 'Connect to Metamask'} onClick={handleCompoundNodeButtonClick} width='200px'/>
+                    </div>
                     {getUnderMainButtonText()}
-                    <div style={{color: "#FF6B6B", fontSize: "20px", border:'6px solid #E80000'}}>MIGRATION COMING MARCH 21TH 4PM UTC, CLAIM YOUR REWARDS BEFORE THIS DATE OR YOU WILL LOSE THEM</div>
                 </div>                              
             </div>
 
             <div className="zone" id='create'>
                 <div className="toCenter">
                     <div><TextInput placeholder='NebulaNode Name' onChange={(e) => setNodeName(e.target.value) } /></div>
+                    <div><TextInput placeholder='Nb tokens (e.g. 10.0)' onChange={handleTokensNbChange}/></div>
                   {/*  <label for="token-select">Select a number of NeBu :</label>
                     <select name="token" id="token-select" className="select" onChange={handleTokensNbChange}>
                       <option value="10000000000000000000">10</option>
@@ -2231,21 +2761,12 @@ function App() {
           </select> */}
                     <div>
                         <Button text={status === 'connected' ? 'Create a NebulaNode' : 'Connect to Metamask'} onClick={handleCreateNodeButtonClick} width='200px'/>
+                        <Button text={status === 'connected' ? 'Migrate Old Node' : 'Connect to Metamask'} onClick={handleMigrateNodeButtonClick} width='200px'/>
                     </div>                    
                     <div >1 NebulaNode = 10 <span className="tokenSpan">Nebu</span></div>
                 </div>
             </div>
-
-              <div className="zone" id='create'>
-                <div className="toCenter">
-                    <div><TextInput placeholder='Blocktime' onChange={(e) => setBlocktime(e.target.value) } /></div>
-                    <div>
-                        <Button text={status === 'connected' ? 'Cashout Node' : 'Connect to Metamask'} onClick={handleCashoutNodeButtonClick} width='200px'/>
-                        <Button text={status === 'connected' ? 'Compound Node' : 'Connect to Metamask'} onClick={handleCompoundNodeButtonClick} width='200px'/>
-                    </div>                              
-                    <div >This button allows you to Cashout or Compound a node, to do so put the blocktime of the node you want to cashout or compound (see Below in your owned node) and click on <span className="tokenSpan">Cashout Node</span> or <span className="tokenSpan">Compound Node</span></div>
-                </div>
-            </div>               
+   
             <div className="zone" id='owned'>
                 <div className="titleZone" id='zone3row1'>
                     <p>Owned <span className="tokenSpan">Nebula</span>Nodes</p>
@@ -2253,7 +2774,6 @@ function App() {
                 </div>
                 <div className="rowForColumns">
                     <div><b>Created Time</b></div>
-                    <div className="block"><b>BlockTime</b></div>
                     <div className="name"><b>Name</b></div>
                     <div className="rewards"><b>Rewards</b></div>
                     <div className="value"><b>Value</b></div>
@@ -2262,7 +2782,6 @@ function App() {
                 {nodes.map( (node) => (
                 <div key={node.name} className="rowForColumns">
                     <div>{creationTimeToDate(node.creationTime)}</div>
-                    <div>{node.creationTime}</div>
                     <div className="nameRow">{node.name}</div>
                     <div>{node.rewards} <span className="tokenSpan">Nebu </span></div>
                     <div>{node.value}</div>
