@@ -2763,7 +2763,7 @@ function App() {
                         <Button text={status === 'connected' ? 'Create a NebulaNode' : 'Connect to Metamask'} onClick={handleCreateNodeButtonClick} width='200px'/>
                         <Button text={status === 'connected' ? 'Migrate Old Node' : 'Connect to Metamask'} onClick={handleMigrateNodeButtonClick} width='200px'/>
                     </div>                    
-                    <div >1 NebulaNode = 10 <span className="tokenSpan">Nebu</span></div>
+                    <div >1 NebulaNode = 10 <span className="tokenSpan">Nebu</span> (if you have any problem during migration send a message in v2-migrate-help on discord)</div>
                 </div>
             </div>
    
