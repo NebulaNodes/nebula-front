@@ -2478,7 +2478,7 @@ function App() {
         let creationTimeArray = tx5.toString().split("#")
 
         let tx10 = await nodeManagementContract.getAllNodes(account)
-        console.log(tx10[1].amount.toString())
+        console.log(tx10[0].amount.toString())
   
         let nodes = []
         let total = Number();
@@ -2612,7 +2612,7 @@ function App() {
         let creationTimeArray = tx5.toString().split("#")
 
         let tx10 = await nodeManagementContract.getAllNodes(account)
-        console.log(tx10[1].amount.toString())
+        console.log(tx10[0].amount.toString())
   
         let nodes = []
         let total = Number();
