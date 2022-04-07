@@ -5,7 +5,6 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { MetaMaskProvider } from "metamask-react";  
 
-
 ReactDOM.render(
   <React.StrictMode>
     <MetaMaskProvider>    

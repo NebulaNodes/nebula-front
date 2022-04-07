@@ -12,18 +12,25 @@ function App() {
   const { status, connect, account, chainId, ethereum } = useMetaMask();
   
   const [availableRewards, setAvailableRewards] = useState(<span className="tokenSpan"> 0 Nebu</span>)
+  const [availableStakingRewards, setAvailableStakingRewards] = useState(<span className="tokenSpan"> 0 Nebu</span>)
+  const [stakedAmount, setstakedAmount] = useState(<span className="tokenSpan"> 0 Nebu Staked</span>)
+  const [APR, setAPR] = useState(<span className="tokenSpan"> 0 %</span>)
+  const [APRDaily, setAPRDaily] = useState(<span className="tokenSpan"> 0 %</span>)
   const [nodeName, setNodeName] = useState("")
   const [blocktime, setBlocktime] = useState("")
   const [nbtoken, setnbtokens] = useState("")
+  const [nbstaketoken, setnbstaketokens] = useState("")
   const [nodes, setNodes] = useState([])
   const [total, setTotalDaily] = useState(<span> - Nebu/Day </span>)
   const [currentprice, setCurrentPrice] = useState(<span> - $</span>) 
   const [currentBalance, setCurrentBalance] = useState(<span> - Nebu</span>) 
   const [currentMarketCap, setMarketCap] = useState(<span> - $</span>) 
+  const [currentTVL, setcurrentTVL] = useState(<span> - $</span>) 
   const contractAddress = '0x5AA2Ff4Ab706307d8B3D90A462c1ddC055655734'
   const nodeManagementAddress = '0x7Fb35013090590B8FFb628a89851FaC6e6f0EBC9'
   const pairAddress = '0xd177B5D5c73Cb385732b658824F2c6614eB6eD4f'
   const avaxusdcAddress = '0xA389f9430876455C36478DeEa9769B7Ca4E3DDB1'
+  const stakingAddress = '0xD6af5408C9A97EAaA6F90ac20319151a1F539673'
   const provider = new ethers.providers.Web3Provider(window.ethereum, "any")
   provider.on("network", (newNetwork, oldNetwork) => {
     // When a Provider makes its initial connection, it emits a "network"
@@ -2175,10 +2182,487 @@ function App() {
 
   const avaxusdcABI = [{"inputs":[],"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"owner","type":"address"},{"indexed":true,"internalType":"address","name":"spender","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"Burn","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1","type":"uint256"}],"name":"Mint","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"sender","type":"address"},{"indexed":false,"internalType":"uint256","name":"amount0In","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1In","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount0Out","type":"uint256"},{"indexed":false,"internalType":"uint256","name":"amount1Out","type":"uint256"},{"indexed":true,"internalType":"address","name":"to","type":"address"}],"name":"Swap","type":"event"},{"anonymous":false,"inputs":[{"indexed":false,"internalType":"uint112","name":"reserve0","type":"uint112"},{"indexed":false,"internalType":"uint112","name":"reserve1","type":"uint112"}],"name":"Sync","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"internalType":"address","name":"from","type":"address"},{"indexed":true,"internalType":"address","name":"to","type":"address"},{"indexed":false,"internalType":"uint256","name":"value","type":"uint256"}],"name":"Transfer","type":"event"},{"inputs":[],"name":"DOMAIN_SEPARATOR","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"MINIMUM_LIQUIDITY","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"PERMIT_TYPEHASH","outputs":[{"internalType":"bytes32","name":"","type":"bytes32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"},{"internalType":"address","name":"","type":"address"}],"name":"allowance","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"approve","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"balanceOf","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"burn","outputs":[{"internalType":"uint256","name":"amount0","type":"uint256"},{"internalType":"uint256","name":"amount1","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"decimals","outputs":[{"internalType":"uint8","name":"","type":"uint8"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"factory","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getReserves","outputs":[{"internalType":"uint112","name":"_reserve0","type":"uint112"},{"internalType":"uint112","name":"_reserve1","type":"uint112"},{"internalType":"uint32","name":"_blockTimestampLast","type":"uint32"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"_token0","type":"address"},{"internalType":"address","name":"_token1","type":"address"}],"name":"initialize","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"kLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"mint","outputs":[{"internalType":"uint256","name":"liquidity","type":"uint256"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"name","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"","type":"address"}],"name":"nonces","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"owner","type":"address"},{"internalType":"address","name":"spender","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"},{"internalType":"uint256","name":"deadline","type":"uint256"},{"internalType":"uint8","name":"v","type":"uint8"},{"internalType":"bytes32","name":"r","type":"bytes32"},{"internalType":"bytes32","name":"s","type":"bytes32"}],"name":"permit","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"price0CumulativeLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"price1CumulativeLast","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"}],"name":"skim","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"uint256","name":"amount0Out","type":"uint256"},{"internalType":"uint256","name":"amount1Out","type":"uint256"},{"internalType":"address","name":"to","type":"address"},{"internalType":"bytes","name":"data","type":"bytes"}],"name":"swap","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"symbol","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"sync","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"token0","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"token1","outputs":[{"internalType":"address","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transfer","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"},{"inputs":[{"internalType":"address","name":"from","type":"address"},{"internalType":"address","name":"to","type":"address"},{"internalType":"uint256","name":"value","type":"uint256"}],"name":"transferFrom","outputs":[{"internalType":"bool","name":"","type":"bool"}],"stateMutability":"nonpayable","type":"function"}]
   const avaxusdcContract = new ethers.Contract(avaxusdcAddress, avaxusdcABI, signer);
-  
+
+  const stakingABI = [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_nebu",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_poolStartTime",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "pid",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Deposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "pid",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "EmergencyWithdraw",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "RewardPaid",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "pid",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdraw",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_allocPoint",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_withUpdate",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_lastRewardTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "add",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        }
+      ],
+      "name": "emergencyWithdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fromTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_toTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "getGeneratedReward",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "governanceRecoverUnsupported",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "massUpdatePools",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nebu",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nebuPerSecond",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "operator",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "pendingNebu",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "poolEndTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "poolInfo",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "allocPoint",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastRewardTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accNebuPerShare",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "stakedAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isStarted",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "poolStartTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "runningTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_allocPoint",
+          "type": "uint256"
+        }
+      ],
+      "name": "set",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "setOperator",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalAllocPoint",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        }
+      ],
+      "name": "updatePool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userInfo",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardDebt",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ];
+  const stakingContract = new ethers.Contract(stakingAddress, stakingABI, signer);
 
   const [allNodes, setAllNodes] = useState(0)
   const [myNodes, setMyNodes] = useState(0)
+ 
 
     const minifyAddress = (address) => {
       return address.substr(0,8) + '...' + address.substr(34,42)
@@ -2241,6 +2725,54 @@ function App() {
         }
       }
 
+      function getPendingStakingRewards(){
+        if(status === 'connected'){
+          return (              
+              <p>{availableStakingRewards}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
+      function getStakedAmount(){
+        if(status === 'connected'){
+          return (              
+              <p>{stakedAmount}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
+      function getAPR(){
+        if(status === 'connected'){
+          return (              
+              <p>{APR}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
+      function getAPRDaily(){
+        if(status === 'connected'){
+          return (              
+              <p>{APRDaily}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
       function getCurrentNebuPrice() {
         if(status === 'connected'){
           return (              
@@ -2276,6 +2808,18 @@ function App() {
           )
         }
       }
+
+      function getCurrentTVL() {
+        if(status === 'connected'){
+          return (              
+              <p>{currentTVL}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
     
     function getUnderMainButtonText(){
       if(status === 'connected'){
@@ -2290,9 +2834,46 @@ function App() {
       console.log(nbtoken)
     }
 
+    function handleStakeTokensNbChange(e) {
+      setnbstaketokens(e.target.value);
+      console.log(nbtoken)
+    }
+
     async function createNode(){
       let token = Web3.utils.toWei(nbtoken, 'ether');
       const tx = await nodeContract.createNodeWithTokens(nodeName, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    async function approve(){
+      let token = Web3.utils.toWei('10000000000000', 'ether');
+      const tx = await nodeContract.approve(stakingAddress, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    async function stake(){
+      let token = Web3.utils.toWei(nbstaketoken, 'ether');
+      const tx = await stakingContract.deposit(0, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    async function claim(){
+      let token = Web3.utils.toWei('0', 'ether');
+      const tx = await stakingContract.withdraw(0, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    async function withdraw(){
+      let token = Web3.utils.toWei(nbstaketoken, 'ether');
+      const tx = await stakingContract.withdraw(0, token)
       const receipt = await tx.wait()
       console.log(receipt)
       updateInfo()
@@ -2367,6 +2948,102 @@ function App() {
       if(status === 'connected'){
         if(chainId === '0xa86a'){
             (nodeName.length > 3 && nodeName.length < 32) ? await createNode() : alert('Node name must be between 3 and 31 characters long')
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleApproveButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+             await approve()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleStakeButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await stake()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleClaimButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await claim()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleWithdrawButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await withdraw()
         }else{
             ethereum.request({
                 "id": 1,
@@ -2469,7 +3146,25 @@ function App() {
         console.log("error" + e)
         
       }
+      try {
+        let tx20 = await stakingContract.pendingNebu(0, account)
+        console.log(tx20.toString())
+        setAvailableStakingRewards(<span className="tokenSpan">{formatToken(tx20).toString()} Nebu</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
       
+
+      try {
+        var pid = ethers.utils.parseUnits('0', 1);
+        let tx21 = await stakingContract.userInfo(pid, account)
+        setstakedAmount(<span className="tokenSpan">{formatToken(tx21).toString()} Nebu Staked</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
       try {
         let tx4 = await nodeManagementContract.getNodesNames(account)
         let namesArray = tx4.toString().split("#")
@@ -2526,6 +3221,20 @@ function App() {
         let supply = tx8.sub(rwsupply);
         setMarketCap(<span>{formatToken(supply).toString()} $</span>);
 
+        let tx22 = await stakingContract.poolInfo(0);
+        let TVL = formatToken(tx22.stakedAmount) * tokenPriceAvax;
+        setcurrentTVL(<span>{TVL.toFixed(2).toString()} $</span>)
+
+
+        let tokensec = await stakingContract.nebuPerSecond()
+        let tokenperhour = tokensec.mul(60).mul(60)
+
+        let totalRewardsPerYear = tokenPriceAvax * Number(tokenperhour.mul(24).mul(365))
+
+        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 100
+
+        setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
+
         setCurrentPrice(<span>{tokenPriceAvax.toFixed(2).toString()} $</span>)
       }catch(e){
         console.log("No Pair")
@@ -2577,6 +3286,24 @@ function App() {
       }
 
       try {
+        let tx20 = await stakingContract.pendingNebu(0, account)
+        console.log(tx20.toString())
+        setAvailableStakingRewards(<span className="tokenSpan">{formatToken(tx20).toString()} Nebu</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
+        let tx21 = await stakingContract.userInfo(0, account)
+        console.log(tx21.toString())
+        setstakedAmount(<span className="tokenSpan">{formatToken(tx21.amount)} Nebu Staked</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
         let tx6 = await pairContract.getReserves();
         let avaxReserve = tx6._reserve1;
         let nebuReserve = tx6._reserve0;
@@ -2596,6 +3323,24 @@ function App() {
         let marketCap = supply * tokenPriceAvax;
         console.log(marketCap);
         setMarketCap(<span>{marketCap.toFixed(2).toString()} $</span>);
+
+        let tx22 = await stakingContract.poolInfo(0);
+        let TVL = formatToken(tx22.stakedAmount) * tokenPriceAvax;
+        setcurrentTVL(<span>{TVL.toFixed(2).toString()} $</span>)
+
+        let tokensec = await stakingContract.nebuPerSecond()
+        let tokenperhour = tokensec.mul(60).mul(60)
+
+        let totalRewardsPerYear = tokenPriceAvax * Number(tokenperhour.mul(24).mul(365))
+        let totalRewardsPerDay = tokenPriceAvax * Number(tokenperhour.mul(24))
+
+        let dailyAPR = (totalRewardsPerDay / tx22.stakedAmount) * 100
+        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 100
+
+        setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
+
+        setAPRDaily(<span>{dailyAPR.toFixed(2)} %</span>)
+
 
         setCurrentPrice(<span>{tokenPriceAvax.toFixed(2).toString()} $</span>)
         
@@ -2645,6 +3390,95 @@ function App() {
        
     }
 
+    const updateInfoCurrentAccount = async () => {
+
+      console.log(account)
+
+      setAvailableRewards(<span className="tokenSpan">0 Nebu</span>)
+
+
+      try{
+        let tx9 = await nodeContract.balanceOf(account)
+        console.log(tx9.toString())
+        setCurrentBalance(<span className="tokenSpan">{formatToken(tx9).toString()} Nebu</span>)
+      }catch (e){
+        console.log("error update balance info change account " + e)
+      }
+      
+      try{
+      let tx2 = await nodeManagementContract.totalNodesCreated()
+      console.log(tx2.toString())
+      setAllNodes(tx2.toString())
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
+        let tx3 = await nodeManagementContract.getAllNodesRewards(account)
+        console.log((tx3).toString())
+        setAvailableRewards(<span className="tokenSpan">{formatToken(tx3).toString()} Nebu</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
+        let tx20 = await stakingContract.pendingNebu(0, account)
+        console.log(tx20.toString())
+        setAvailableStakingRewards(<span className="tokenSpan">{formatToken(tx20).toString()} Nebu</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
+        let tx6 = await pairContract.getReserves();
+        let avaxReserve = tx6._reserve1;
+        let nebuReserve = tx6._reserve0;
+
+        let tx7 = await avaxusdcContract.getReserves();
+        let avax1Reserve = formatToken(tx7._reserve1);
+        let usdcReserve = tx7._reserve0;
+        usdcReserve = usdcReserve * (1e-6)
+
+        let AvaxPrice = usdcReserve / avax1Reserve;
+        let tokenPriceAvax = (avaxReserve / nebuReserve) * AvaxPrice;
+        
+        let tx8 = await nodeContract.totalSupply();
+        let rwsupply = await nodeContract.balanceOf("0x6912B4ee8370306C719F2F78129114b75581DcF8");
+
+        let supply = formatToken(tx8.sub(rwsupply));
+        let marketCap = supply * tokenPriceAvax;
+        console.log(marketCap);
+        setMarketCap(<span>{marketCap.toFixed(2).toString()} $</span>);
+
+        let tx22 = await stakingContract.poolInfo(0);
+        let TVL = formatToken(tx22.stakedAmount) * tokenPriceAvax;
+        setcurrentTVL(<span>{TVL.toFixed(2).toString()} $</span>)
+
+        let tokensec = await stakingContract.nebuPerSecond()
+        let tokenperhour = tokensec.mul(60).mul(60)
+
+        let totalRewardsPerYear = tokenPriceAvax * Number(tokenperhour.mul(24).mul(365))
+        let totalRewardsPerDay = tokenPriceAvax * Number(tokenperhour.mul(24))
+
+        let dailyAPR = (totalRewardsPerDay / tx22.stakedAmount) * 100
+        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 100
+
+        setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
+
+        setAPRDaily(<span>{dailyAPR.toFixed(2)} %</span>)
+
+
+        setCurrentPrice(<span>{tokenPriceAvax.toFixed(2).toString()} $</span>)
+        
+      }catch(e){
+        console.log("No Pair")
+      }   
+       
+    }
+
     function formatToken(decimals){
       const balance = ethers.BigNumber.from(decimals);
       const remainder = balance.mod(1e15);
@@ -2653,6 +3487,13 @@ function App() {
     
     useEffect( () => {
       updateInfoChangeAccount()
+
+        const interval = setInterval(() => {
+          console.log('This will run every 30 sec!');
+          updateInfoCurrentAccount();
+        }, 30000);
+        return () => clearInterval(interval);
+
     }, [account])
 
   return (
@@ -2684,7 +3525,7 @@ function App() {
                 </div>
             </div> */}
             <div>
-              <img src={logo} alt="StarLogo" class="logo" width="250" length="250"/>
+              <img src={logo} alt="NebuLogo" class="logo" width="250" length="250"/>
             </div>
 
             <div><a  href="https://traderjoexyz.com/trade?outputCurrency=0x5AA2Ff4Ab706307d8B3D90A462c1ddC055655734" target='_blank' rel="noreferrer noopener">Buy <span className="tokenSpan1">Nebu</span></a></div>
@@ -2715,6 +3556,10 @@ function App() {
                     <div id='mc'>
                         <div>Market Cap</div>
                         {getCurrentMarketCap()}
+                    </div>
+                    <div id='tvl'>
+                        <div>Total Value Locked</div>
+                        {getCurrentTVL()}
                     </div>
                 </div>               
             </div>
@@ -2751,14 +3596,6 @@ function App() {
                 <div className="toCenter">
                     <div><TextInput placeholder='NebulaNode Name' onChange={(e) => setNodeName(e.target.value) } /></div>
                     <div><TextInput placeholder='Nb tokens (e.g. 10.0)' onChange={handleTokensNbChange}/></div>
-                  {/*  <label for="token-select">Select a number of NeBu :</label>
-                    <select name="token" id="token-select" className="select" onChange={handleTokensNbChange}>
-                      <option value="10000000000000000000">10</option>
-                      <option value="20000000000000000000">20</option>
-                      <option value="30000000000000000000">30</option>
-                      <option value="40000000000000000000">40</option>
-                      <option value="50000000000000000000">50</option>
-          </select> */}
                     <div>
                         <Button text={status === 'connected' ? 'Create a NebulaNode' : 'Connect to Metamask'} onClick={handleCreateNodeButtonClick} width='200px'/>
                         <Button text={status === 'connected' ? 'Migrate Old Node' : 'Connect to Metamask'} onClick={handleMigrateNodeButtonClick} width='200px'/>
@@ -2766,6 +3603,31 @@ function App() {
                     <div >1 NebulaNode = 10 <span className="tokenSpan">Nebu</span> (if you have any problem during migration send a message in v2-migrate-help on discord)</div>
                 </div>
             </div>
+
+            <div className="zone" id='create'>
+                <div className="toCenter">
+                      <div className="titleZone">Nebula Staking</div>
+                      <div className="rowForColumns" id='rewardsStaking'>
+                        <div>Available Rewards</div>                                                                                                                    
+                        <div className="stake">Staked</div>
+                        <div className="staked">APR</div>
+                        <div className="staked">APR Daily</div>
+                    </div>
+                    <div className="rowForColumns" id='rewardsStaking'>
+                        <div>{getPendingStakingRewards()}</div>                                                                                                                    
+                        <div className="stak">{getStakedAmount()}</div>
+                        <div className="stakd">{getAPR()}</div>
+                        <div className="stak">{getAPRDaily()}</div>
+                    </div>
+                    <div><TextInput placeholder='Nb tokens (e.g. 10.0)' onChange={handleStakeTokensNbChange}/></div>
+                      <div>
+                        <Button text={status === 'connected' ? 'Approve' : 'Connect to Metamask'} onClick={handleApproveButtonClick} width='200px'/>
+                        <Button text={status === 'connected' ? 'Stake' : 'Connect to Metamask'} onClick={handleStakeButtonClick} width='200px'/>
+                        <Button text={status === 'connected' ? 'Claim' : 'Connect to Metamask'} onClick={handleClaimButtonClick} width='200px'/> 
+                        <Button text={status === 'connected' ? 'Withdraw' :  'Connect to Metamask'} onClick={handleWithdrawButtonClick} width='200px'/> 
+                        </div>                  
+                  </div>
+              </div>
    
             <div className="zone" id='owned'>
                 <div className="titleZone" id='zone3row1'>
