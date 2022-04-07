@@ -3231,7 +3231,7 @@ function App() {
 
         let totalRewardsPerYear = tokenPriceAvax * Number(tokenperhour.mul(24).mul(365))
 
-        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 100
+        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 10
 
         setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
 
@@ -3334,8 +3334,8 @@ function App() {
         let totalRewardsPerYear = tokenPriceAvax * Number(tokenperhour.mul(24).mul(365))
         let totalRewardsPerDay = tokenPriceAvax * Number(tokenperhour.mul(24))
 
-        let dailyAPR = (totalRewardsPerDay / tx22.stakedAmount) * 100
-        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 100
+        let dailyAPR = (totalRewardsPerDay / tx22.stakedAmount) * 10
+        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 10
 
         setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
 
@@ -3463,8 +3463,8 @@ function App() {
         let totalRewardsPerYear = tokenPriceAvax * Number(tokenperhour.mul(24).mul(365))
         let totalRewardsPerDay = tokenPriceAvax * Number(tokenperhour.mul(24))
 
-        let dailyAPR = (totalRewardsPerDay / tx22.stakedAmount) * 100
-        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 100
+        let dailyAPR = (totalRewardsPerDay / tx22.stakedAmount) * 10
+        let yearlyAPR = (totalRewardsPerYear / tx22.stakedAmount) * 10
 
         setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
 
