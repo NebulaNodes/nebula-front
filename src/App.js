@@ -13,9 +13,13 @@ function App() {
   
   const [availableRewards, setAvailableRewards] = useState(<span className="tokenSpan"> 0 Nebu</span>)
   const [availableStakingRewards, setAvailableStakingRewards] = useState(<span className="tokenSpan"> 0 Nebu</span>)
+  const [availableStakingRewardsAvax, setAvailableStakingRewardsAvax] = useState(<span className="tokenSpan"> 0 WAVAX</span>)
   const [stakedAmount, setstakedAmount] = useState(<span className="tokenSpan"> 0 Nebu Staked</span>)
+  const [stakedAvaxAmount, setstakedAvaxAmount] = useState(<span className="tokenSpan"> 0 Nebu Staked</span>)
   const [APR, setAPR] = useState(<span className="tokenSpan"> 0 %</span>)
   const [APRDaily, setAPRDaily] = useState(<span className="tokenSpan"> 0 %</span>)
+  const [APRAvax, setAPRAvax] = useState(<span className="tokenSpan"> 0 %</span>)
+  const [APRDailyAvax, setAPRDailyAvax] = useState(<span className="tokenSpan"> 0 %</span>)
   const [nodeName, setNodeName] = useState("")
   const [blocktime, setBlocktime] = useState("")
   const [nbtoken, setnbtokens] = useState("")
@@ -31,6 +35,7 @@ function App() {
   const pairAddress = '0xd177B5D5c73Cb385732b658824F2c6614eB6eD4f'
   const avaxusdcAddress = '0xA389f9430876455C36478DeEa9769B7Ca4E3DDB1'
   const stakingAddress = '0xD6af5408C9A97EAaA6F90ac20319151a1F539673'
+  const stakingAddressAvax = '0x8A491601A601f3994c8d41D85C4aBa40688ecd08'
   const provider = new ethers.providers.Web3Provider(window.ethereum, "any")
   provider.on("network", (newNetwork, oldNetwork) => {
     // When a Provider makes its initial connection, it emits a "network"
@@ -2660,6 +2665,498 @@ function App() {
   ];
   const stakingContract = new ethers.Contract(stakingAddress, stakingABI, signer);
 
+
+  const stakingAvaxABI = [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_nebu",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_poolStartTime",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "pid",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Deposit",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "pid",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "EmergencyWithdraw",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "RewardPaid",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "user",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "uint256",
+          "name": "pid",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "Withdraw",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_allocPoint",
+          "type": "uint256"
+        },
+        {
+          "internalType": "contract IERC20",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "bool",
+          "name": "_withUpdate",
+          "type": "bool"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_lastRewardTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "add",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "deposit",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        }
+      ],
+      "name": "emergencyWithdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_fromTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_toTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "getGeneratedReward",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "_token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "to",
+          "type": "address"
+        }
+      ],
+      "name": "governanceRecoverUnsupported",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "massUpdatePools",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nebu",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nebuPerSecond",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "operator",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_user",
+          "type": "address"
+        }
+      ],
+      "name": "pendingNebu",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "poolEndTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "poolInfo",
+      "outputs": [
+        {
+          "internalType": "contract IERC20",
+          "name": "token",
+          "type": "address"
+        },
+        {
+          "internalType": "uint256",
+          "name": "allocPoint",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "lastRewardTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "accNebuPerShare",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "stakedAmount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bool",
+          "name": "isStarted",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "poolStartTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "runningTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_allocPoint",
+          "type": "uint256"
+        }
+      ],
+      "name": "set",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "newVal",
+          "type": "uint256"
+        }
+      ],
+      "name": "setEmission",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "_operator",
+          "type": "address"
+        }
+      ],
+      "name": "setOperator",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "totalAllocPoint",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        }
+      ],
+      "name": "updatePool",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "userInfo",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "amount",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "rewardDebt",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_pid",
+          "type": "uint256"
+        },
+        {
+          "internalType": "uint256",
+          "name": "_amount",
+          "type": "uint256"
+        }
+      ],
+      "name": "withdraw",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ];
+  const stakingContractWavax = new ethers.Contract(stakingAddressAvax, stakingAvaxABI, signer);
+
+
   const [allNodes, setAllNodes] = useState(0)
   const [myNodes, setMyNodes] = useState(0)
  
@@ -2737,10 +3234,34 @@ function App() {
         }
       }
 
+      function getPendingStakingRewardsAvax(){
+        if(status === 'connected'){
+          return (              
+              <p>{availableStakingRewardsAvax}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
       function getStakedAmount(){
         if(status === 'connected'){
           return (              
               <p>{stakedAmount}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
+      function getStakedAvaxAmount(){
+        if(status === 'connected'){
+          return (              
+              <p>{stakedAvaxAmount}</p>
           )
         }else{
           return (  
@@ -2765,6 +3286,30 @@ function App() {
         if(status === 'connected'){
           return (              
               <p>{APRDaily}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
+      function getAPRAvax(){
+        if(status === 'connected'){
+          return (              
+              <p>{APRAvax}</p>
+          )
+        }else{
+          return (  
+              <span className="placeholder"></span>
+          )
+        }
+      }
+
+      function getAPRDailyAvax(){
+        if(status === 'connected'){
+          return (              
+              <p>{APRDailyAvax}</p>
           )
         }else{
           return (  
@@ -2855,9 +3400,25 @@ function App() {
       updateInfo()
     }
 
+    async function approveAvax(){
+      let token = Web3.utils.toWei('10000000000000', 'ether');
+      const tx = await nodeContract.approve(stakingAddressAvax, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
     async function stake(){
       let token = Web3.utils.toWei(nbstaketoken, 'ether');
       const tx = await stakingContract.deposit(0, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    async function stakeAvax(){
+      let token = Web3.utils.toWei(nbstaketoken, 'ether');
+      const tx = await stakingContractWavax.deposit(0, token)
       const receipt = await tx.wait()
       console.log(receipt)
       updateInfo()
@@ -2871,9 +3432,25 @@ function App() {
       updateInfo()
     }
 
+    async function claimAvax(){
+      let token = Web3.utils.toWei('0', 'ether');
+      const tx = await stakingContractWavax.withdraw(0, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
     async function withdraw(){
       let token = Web3.utils.toWei(nbstaketoken, 'ether');
       const tx = await stakingContract.withdraw(0, token)
+      const receipt = await tx.wait()
+      console.log(receipt)
+      updateInfo()
+    }
+
+    async function withdrawAvax(){
+      let token = Web3.utils.toWei(nbstaketoken, 'ether');
+      const tx = await stakingContractWavax.withdraw(0, token)
       const receipt = await tx.wait()
       console.log(receipt)
       updateInfo()
@@ -2992,10 +3569,58 @@ function App() {
       }
     }
 
+    async function handleApproveAvaxButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+             await approveAvax()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
     async function handleStakeButtonClick () {
       if(status === 'connected'){
         if(chainId === '0xa86a'){
             await stake()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleStakeAvaxButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await stakeAvax()
         }else{
             ethereum.request({
                 "id": 1,
@@ -3040,10 +3665,58 @@ function App() {
       }
     }
 
+    async function handleClaimAvaxButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await claimAvax()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
     async function handleWithdrawButtonClick () {
       if(status === 'connected'){
         if(chainId === '0xa86a'){
             await withdraw()
+        }else{
+            ethereum.request({
+                "id": 1,
+                "jsonrpc": "2.0",
+                "method": "wallet_switchEthereumChain",
+                "params": [
+                  {
+                    "chainId": "0xa86a"
+                  }
+                ]
+              })
+            .then((txHash) => console.log(txHash))
+            .catch((error) => console.error);
+        }            
+        
+      }else{
+        await connect()        
+      }
+    }
+
+    async function handleWithdrawAvaxButtonClick () {
+      if(status === 'connected'){
+        if(chainId === '0xa86a'){
+            await withdrawAvax()
         }else{
             ethereum.request({
                 "id": 1,
@@ -3154,12 +3827,30 @@ function App() {
         console.log("error" + e)
         
       }
+
+      try {
+        let tx30 = await stakingContractWavax.pendingNebu(0, account)
+        console.log(tx30.toString())
+        setAvailableStakingRewardsAvax(<span className="tokenSpan">{formatToken(tx30).toString()} WAVAX</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
       
 
       try {
         var pid = ethers.utils.parseUnits('0', 1);
         let tx21 = await stakingContract.userInfo(pid, account)
         setstakedAmount(<span className="tokenSpan">{formatToken(tx21).toString()} Nebu Staked</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
+        let tx31 = await stakingContractWavax.userInfo(0, account)
+        console.log(tx31.toString())
+        setstakedAvaxAmount(<span className="tokenSpan">{formatToken(tx31.amount)} Nebu Staked</span>)
       }catch (e){
         console.log("error" + e)
         
@@ -3295,9 +3986,27 @@ function App() {
       }
 
       try {
+        let tx30 = await stakingContractWavax.pendingNebu(0, account)
+        console.log(tx30.toString())
+        setAvailableStakingRewardsAvax(<span className="tokenSpan">{formatToken(tx30).toString()} WAVAX</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
         let tx21 = await stakingContract.userInfo(0, account)
         console.log(tx21.toString())
         setstakedAmount(<span className="tokenSpan">{formatToken(tx21.amount)} Nebu Staked</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+
+      try {
+        let tx31 = await stakingContractWavax.userInfo(0, account)
+        console.log(tx31.toString())
+        setstakedAvaxAmount(<span className="tokenSpan">{formatToken(tx31.amount)} Nebu Staked</span>)
       }catch (e){
         console.log("error" + e)
         
@@ -3325,6 +4034,7 @@ function App() {
         setMarketCap(<span>{marketCap.toFixed(2).toString()} $</span>);
 
         let tx22 = await stakingContract.poolInfo(0);
+        let tx32 = await stakingContractWavax.poolInfo(0);
         let TVL = formatToken(tx22.stakedAmount) * tokenPriceAvax;
         setcurrentTVL(<span>{TVL.toFixed(2).toString()} $</span>)
 
@@ -3340,6 +4050,20 @@ function App() {
         setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
 
         setAPRDaily(<span>{dailyAPR.toFixed(2)} %</span>)
+
+
+        let tokensecAvax = await stakingContractWavax.nebuPerSecond()
+        let tokenperhourAvax = tokensecAvax.mul(60).mul(60)
+
+        let totalRewardsPerYearAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24).mul(365))
+        let totalRewardsPerDayAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24))
+
+        let dailyAPRAvax = (totalRewardsPerDayAvax / tx32.stakedAmount) * 10
+        let yearlyAPRAvax = (totalRewardsPerYearAvax / tx32.stakedAmount) * 10
+
+        setAPRAvax(<span>{yearlyAPRAvax.toFixed(2)} %</span>)
+
+        setAPRDailyAvax(<span>{dailyAPRAvax.toFixed(2)} %</span>)
 
 
         setCurrentPrice(<span>{tokenPriceAvax.toFixed(2).toString()} $</span>)
@@ -3433,6 +4157,16 @@ function App() {
       }
 
       try {
+        let tx30 = await stakingContractWavax.pendingNebu(0, account)
+        console.log(tx30.toString())
+        setAvailableStakingRewardsAvax(<span className="tokenSpan">{formatToken(tx30).toString()} WAVAX</span>)
+      }catch (e){
+        console.log("error" + e)
+        
+      }
+      
+
+      try {
         let tx6 = await pairContract.getReserves();
         let avaxReserve = tx6._reserve1;
         let nebuReserve = tx6._reserve0;
@@ -3454,6 +4188,7 @@ function App() {
         setMarketCap(<span>{marketCap.toFixed(2).toString()} $</span>);
 
         let tx22 = await stakingContract.poolInfo(0);
+        let tx32 = await stakingContract.poolInfo(0);
         let TVL = formatToken(tx22.stakedAmount) * tokenPriceAvax;
         setcurrentTVL(<span>{TVL.toFixed(2).toString()} $</span>)
 
@@ -3469,6 +4204,19 @@ function App() {
         setAPR(<span>{yearlyAPR.toFixed(2)} %</span>)
 
         setAPRDaily(<span>{dailyAPR.toFixed(2)} %</span>)
+
+        let tokensecAvax = await stakingContractWavax.nebuPerSecond()
+        let tokenperhourAvax = tokensecAvax.mul(60).mul(60)
+
+        let totalRewardsPerYearAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24).mul(365))
+        let totalRewardsPerDayAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24))
+
+        let dailyAPRAvax = (totalRewardsPerDayAvax / tx32.stakedAmount) * 10
+        let yearlyAPRAvax = (totalRewardsPerYearAvax / tx32.stakedAmount) * 10
+
+        setAPRAvax(<span>{yearlyAPRAvax.toFixed(2)} %</span>)
+
+        setAPRDailyAvax(<span>{dailyAPRAvax.toFixed(2)} %</span>)
 
 
         setCurrentPrice(<span>{tokenPriceAvax.toFixed(2).toString()} $</span>)
@@ -3628,6 +4376,34 @@ function App() {
                         </div>                  
                   </div>
               </div>
+
+
+              <div className="zone" id='create'>
+                <div className="toCenter">
+                      <div className="titleZone">Nebula Staking for WAVAX</div>
+                      <div className="rowForColumns" id='rewardsStaking'>
+                        <div>Available Rewards</div>                                                                                                                    
+                        <div className="stake">Staked</div>
+                        <div className="staked">APR</div>
+                        <div className="staked">APR Daily</div>
+                    </div>
+                    <div className="rowForColumns" id='rewardsStaking'>
+                        <div>{getPendingStakingRewardsAvax()}</div>                                                                                                                    
+                        <div className="stak">{getStakedAvaxAmount()}</div>
+                        <div className="stakd">{getAPRAvax()}</div>
+                        <div className="stak">{getAPRDailyAvax()}</div>
+                    </div>
+                    <div><TextInput placeholder='Nb tokens (e.g. 10.0)' onChange={handleStakeTokensNbChange}/></div>
+                      <div>
+                        <Button text={status === 'connected' ? 'Approve' : 'Connect to Metamask'} onClick={handleApproveAvaxButtonClick} width='200px'/>
+                        <Button text={status === 'connected' ? 'Stake' : 'Connect to Metamask'} onClick={handleStakeAvaxButtonClick} width='200px'/>
+                        <Button text={status === 'connected' ? 'Claim' : 'Connect to Metamask'} onClick={handleClaimAvaxButtonClick} width='200px'/> 
+                        <Button text={status === 'connected' ? 'Withdraw' :  'Connect to Metamask'} onClick={handleWithdrawAvaxButtonClick} width='200px'/> 
+                        </div>                  
+                  </div>
+              </div>
+
+              
    
             <div className="zone" id='owned'>
                 <div className="titleZone" id='zone3row1'>
