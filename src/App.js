@@ -4188,7 +4188,7 @@ function App() {
         setMarketCap(<span>{marketCap.toFixed(2).toString()} $</span>);
 
         let tx22 = await stakingContract.poolInfo(0);
-        let tx32 = await stakingContract.poolInfo(0);
+        let tx32 = await stakingContractWavax.poolInfo(0);
         let TVL = formatToken(tx22.stakedAmount) * tokenPriceAvax;
         setcurrentTVL(<span>{TVL.toFixed(2).toString()} $</span>)
 
