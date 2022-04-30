@@ -4055,8 +4055,8 @@ function App() {
         let tokensecAvax = await stakingContractWavax.nebuPerSecond()
         let tokenperhourAvax = tokensecAvax.mul(60).mul(60)
 
-        let totalRewardsPerYearAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24).mul(365))
-        let totalRewardsPerDayAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24))
+        let totalRewardsPerYearAvax = AvaxPrice * Number(tokenperhourAvax.mul(24).mul(365))
+        let totalRewardsPerDayAvax = AvaxPrice * Number(tokenperhourAvax.mul(24))
 
         let dailyAPRAvax = (totalRewardsPerDayAvax / tx32.stakedAmount) * 10
         let yearlyAPRAvax = (totalRewardsPerYearAvax / tx32.stakedAmount) * 10
@@ -4208,8 +4208,8 @@ function App() {
         let tokensecAvax = await stakingContractWavax.nebuPerSecond()
         let tokenperhourAvax = tokensecAvax.mul(60).mul(60)
 
-        let totalRewardsPerYearAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24).mul(365))
-        let totalRewardsPerDayAvax = tokenPriceAvax * Number(tokenperhourAvax.mul(24))
+        let totalRewardsPerYearAvax = AvaxPrice * Number(tokenperhourAvax.mul(24).mul(365))
+        let totalRewardsPerDayAvax = AvaxPrice * Number(tokenperhourAvax.mul(24))
 
         let dailyAPRAvax = (totalRewardsPerDayAvax / tx32.stakedAmount) * 10
         let yearlyAPRAvax = (totalRewardsPerYearAvax / tx32.stakedAmount) * 10
