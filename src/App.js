@@ -3831,7 +3831,6 @@ function App() {
       try {
         let tx30 = await stakingContractWavax.pendingNebu(0, account)
         console.log(tx30.toString())
-        setAvailableStakingRewardsAvax(<span className="tokenSpan">{formatToken(tx30).toString()} WAVAX</span>)
       }catch (e){
         console.log("error" + e)
         
@@ -3988,7 +3987,6 @@ function App() {
       try {
         let tx30 = await stakingContractWavax.pendingNebu(0, account)
         console.log(tx30.toString())
-        setAvailableStakingRewardsAvax(<span className="tokenSpan">{formatToken(tx30).toString()} WAVAX</span>)
       }catch (e){
         console.log("error" + e)
         
@@ -4060,10 +4058,6 @@ function App() {
 
         let dailyAPRAvax = (totalRewardsPerDayAvax / tx32.stakedAmount) * 10
         let yearlyAPRAvax = (totalRewardsPerYearAvax / tx32.stakedAmount) * 10
-
-        setAPRAvax(<span>{yearlyAPRAvax.toFixed(2)} %</span>)
-
-        setAPRDailyAvax(<span>{dailyAPRAvax.toFixed(2)} %</span>)
 
 
         setCurrentPrice(<span>{tokenPriceAvax.toFixed(2).toString()} $</span>)
@@ -4159,7 +4153,6 @@ function App() {
       try {
         let tx30 = await stakingContractWavax.pendingNebu(0, account)
         console.log(tx30.toString())
-        setAvailableStakingRewardsAvax(<span className="tokenSpan">{formatToken(tx30).toString()} WAVAX</span>)
       }catch (e){
         console.log("error" + e)
         
@@ -4214,9 +4207,6 @@ function App() {
         let dailyAPRAvax = (totalRewardsPerDayAvax / tx32.stakedAmount) * 10
         let yearlyAPRAvax = (totalRewardsPerYearAvax / tx32.stakedAmount) * 10
 
-        setAPRAvax(<span>{yearlyAPRAvax.toFixed(2)} %</span>)
-
-        setAPRDailyAvax(<span>{dailyAPRAvax.toFixed(2)} %</span>)
 
 
         setCurrentPrice(<span>{tokenPriceAvax.toFixed(2).toString()} $</span>)
@@ -4395,9 +4385,6 @@ function App() {
                     </div>
                     <div><TextInput placeholder='Nb tokens (e.g. 10.0)' onChange={handleStakeTokensNbChange}/></div>
                       <div>
-                        <Button text={status === 'connected' ? 'Approve' : 'Connect to Metamask'} onClick={handleApproveAvaxButtonClick} width='200px'/>
-                        <Button text={status === 'connected' ? 'Stake' : 'Connect to Metamask'} onClick={handleStakeAvaxButtonClick} width='200px'/>
-                        <Button text={status === 'connected' ? 'Claim' : 'Connect to Metamask'} onClick={handleClaimAvaxButtonClick} width='200px'/> 
                         <Button text={status === 'connected' ? 'Withdraw' :  'Connect to Metamask'} onClick={handleWithdrawAvaxButtonClick} width='200px'/> 
                         </div>                  
                   </div>
